@@ -1,32 +1,24 @@
 const canvas = document.getElementById('radarChart');
 const ctx = canvas.getContext('2d');
+const points = []; // Almacenará los objetos con las coordenadas y puntuaciones de cada punto
 
 function drawRadar() {
-    // Limpiar el canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Variables de configuración
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
     const radius = 150;
-    const numAxis = 4; // Número de ejes, asegúrate de que coincide con la longitud de tu array de datos y títulos
-    const angle = (Math.PI * 2) / numAxis; // Ángulo entre ejes
+    const numAxis = 4;
+    const angle = (Math.PI * 2) / numAxis;
 
-    // Dibujar ejes del radar y subsecciones
     drawAxesAndSubsections(centerX, centerY, radius, numAxis, angle);
-
-    // Dibujar títulos de ejes
     drawAxisTitles(centerX, centerY, radius, numAxis, angle);
-
-    // Dibujar el polígono de datos y puntos medianos
     drawDataPolygon(centerX, centerY, radius, numAxis, angle);
 }
 
 function drawAxesAndSubsections(centerX, centerY, radius, numAxis, angle) {
-    const subsections = 3; // Número de subsecciones por eje
+    const subsections = 3;
     const subsectionRadius = radius / subsections;
 
-    // Dibujar ejes del radar
     for (let i = 0; i < numAxis; i++) {
         ctx.beginPath();
         ctx.moveTo(centerX, centerY);
@@ -36,12 +28,11 @@ function drawAxesAndSubsections(centerX, centerY, radius, numAxis, angle) {
         ctx.stroke();
     }
 
-    // Dibujar subsecciones en los ejes y conectar los vértices
-    ctx.strokeStyle = 'lightgray'; // Color de las líneas de las subsecciones
+    ctx.strokeStyle = 'lightgray';
     for (let j = 1; j <= subsections; j++) {
         ctx.beginPath();
         const subRadius = subsectionRadius * j;
-        for (let i = 0; i <= numAxis; i++) { // Usar <= para cerrar el círculo
+        for (let i = 0; i <= numAxis; i++) {
             const x = centerX + subRadius * Math.cos(angle * i);
             const y = centerY + subRadius * Math.sin(angle * i);
             if (i === 0) {
@@ -56,47 +47,45 @@ function drawAxesAndSubsections(centerX, centerY, radius, numAxis, angle) {
 }
 
 function drawAxisTitles(centerX, centerY, radius, numAxis, angle) {
-    ctx.font = "16px Arial"; // Estilo de fuente para los títulos de los ejes
-    ctx.fillStyle = "black"; // Color del texto
-    const titles = ["Mando y Control", "Situación", "Decisión", "Comunicación"]; // Títulos de los ejes
+    ctx.font = "20px Times New Roman";
+    const titles = ["Comunicación", "Situación", "Decisión","Mando y Control"];
 
     for (let i = 0; i < numAxis; i++) {
+        ctx.save(); // Guarda el estado actual del contexto
         const angleRadians = angle * i;
         const x = centerX + (radius + 20) * Math.cos(angleRadians);
         const y = centerY + (radius + 20) * Math.sin(angleRadians);
 
+        ctx.translate(x, y);
+        ctx.rotate(angleRadians + Math.PI / 2); // Rota el texto para alinearlo con el eje
+
         ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
+        ctx.textBaseline = 'top'; // Ajusta aquí dependiendo de la orientación deseada
 
-        // Ajustar la posición del texto para mejorar la legibilidad
-        const adjustedX = x + (Math.cos(angleRadians) > 0 ? 10 : -10);
-        const adjustedY = y + (Math.sin(angleRadians) > 0 ? 10 : -10);
-
-        ctx.fillText(titles[i], adjustedX, adjustedY);
+        ctx.fillText(titles[i], 0, 0); // Posiciona el texto en el punto transformado
+        ctx.restore(); // Restaura el estado original para no afectar otros dibujos
     }
 }
 
 function drawDataPolygon(centerX, centerY, radius, numAxis, angle) {
-    const data = [7, 3, 8, 5]; // Tus datos normalizados de 1 a 10
+    const data = [7, 4, 9, 2];
     ctx.beginPath();
-    ctx.fillStyle = "rgba(151,187,205,0.2)"; // Opacidad ajustada
+    ctx.fillStyle = "rgba(151,187,205,0.2)";
 
     data.forEach((value, index) => {
         const dataAngle = angle * index;
-        const dataRadius = (value / 10) * radius; // Escala el valor al radio del radar
+        const dataRadius = (value / 10) * radius;
         const x = centerX + dataRadius * Math.cos(dataAngle);
         const y = centerY + dataRadius * Math.sin(dataAngle);
+
+        points.push({ x, y, value }); // Guarda los puntos para el evento de hover
 
         if (index === 0) {
             ctx.moveTo(x, y);
         } else {
             ctx.lineTo(x, y);
         }
-
-        // Dibuja puntos medianos en los vértices
-        ctx.fillStyle = "rgba(151,187,205,1)"; // Color del polígono
-        ctx.beginPath();
-        ctx.arc(x, y,3, 0, Math.PI * 2); // Tamaño de los puntos
+        ctx.arc(x, y, 3, 0, Math.PI * 2);
         ctx.fill();
     });
 
@@ -106,4 +95,44 @@ function drawDataPolygon(centerX, centerY, radius, numAxis, angle) {
     ctx.stroke();
 }
 
-drawRadar(); // Llamar a la función para dibujar el gráfico
+canvas.addEventListener('mousemove', function(e) {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    points.forEach(point => {
+        const distance = Math.sqrt((point.x - mouseX) ** 2 + (point.y - mouseY) ** 2);
+        if (distance < 10) { // Ajusta según el tamaño de tus puntos
+            showTooltip(point.x, point.y, point.value);
+        } else {
+            hideTooltip();
+        }
+    });
+});
+
+function showTooltip(x, y, value) {
+    let tooltip = document.getElementById('tooltip');
+    if (!tooltip) {
+        tooltip = document.createElement('div');
+        tooltip.id = 'tooltip';
+        tooltip.style.position = 'absolute';
+        tooltip.style.padding = '8px';
+        tooltip.style.background = 'rgba(0, 0, 0, 0.7)';
+        tooltip.style.color = 'white';
+        tooltip.style.border- `border-radius`, '10px';
+        document.body.appendChild(tooltip);
+    }
+    tooltip.textContent = `Puntuación: ${value}`;
+    tooltip.style.left = `${x}px`;
+    tooltip.style.top = `${y + 20}px`;
+    tooltip.style.display = 'block';
+}
+
+function hideTooltip() {
+    const tooltip = document.getElementById('tooltip');
+    if (tooltip) {
+        tooltip.style.display = 'none';
+    }
+}
+
+drawRadar(); // Inicia la función para dibujar el gráfico

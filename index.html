@@ -1,24 +1,43 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Gráfico de Radar</title>
     <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            background: #f4f4f4;
+            /* Fondo claro para el cuerpo */
         }
+
         canvas {
             border: 1px solid #ccc;
+            transition: transform 0.2s ease;
+            animation: fadeIn 1s ease-out;
+            /* Suaviza la transformación */
         }
     </style>
+
 </head>
+
 <body>
     <canvas id="radarChart" width="600" height="600"></canvas>
-    <script src="script.js"></script> 
+    <script src="script.js"></script>
 </body>
-</html>
 
+</html>
