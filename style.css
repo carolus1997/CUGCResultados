@@ -1,0 +1,23 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: #f4f4f4; /* Fondo claro para el cuerpo */
+}
+
+canvas {
+    border: 1px solid #ccc;
+    transition: transform 0.2s ease;
+    animation: fadeIn 1s ease-out; /* Suaviza la transformación */
+}
