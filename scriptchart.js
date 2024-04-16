@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const data = [7, 5, 6.33 , 3.33];
+    const data = [6, 5, 6.33 , 3.33];
     const labels = ["Comunicación", "Situación", "Decisión", "Mando y Control"];
     drawRadarChart(data, labels);
 });
@@ -29,10 +29,6 @@ function drawRadarChart(data, labels) {
                     max: 10,
                     angleLines: {
                         display: false
-                    },
-                    ticks: {
-                        suggestedMin: 0,  // Sugerir que los ticks comiencen en 0
-                        suggestedMax: 10  // Ajusta según el máximo esperado en tus datos
                     }
                 }
             },
