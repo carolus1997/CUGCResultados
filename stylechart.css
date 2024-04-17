@@ -4,9 +4,10 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background: #bcc0c4; /* Un fondo claro para mejorar el contraste */
-    color: #495057; /* Un color de texto que no sea puro negro para reducir la dureza */
+    background: #bcc0c4;
+    color: #495057;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px; /* Tamaño base para escritorio */
 }
 
 .btn {
@@ -84,18 +85,69 @@ canvas {
     to { opacity: 1; }
 }
 
-@media (max-width: 768px) {
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    body {
+        font-size: 18px; /* Tamaño de fuente más grande para escritorios grandes */
+    }
+    #radarChart {
+        max-width: 500px;
+        height: 500px;
+    }
+    #SeccionGrande1 {
+        flex-direction: row;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991px) {
+    body {
+        font-size: 16px; /* Tamaño de fuente estándar para tabletas */
+    }
+    #radarChart {
+        max-width: 450px;
+        height: 450px;
+    }
     #SeccionGrande1 {
         flex-direction: column;
     }
+}
 
-    canvas {
-        width: 100%;
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767px) {
+    body {
+        font-size: 14px; /* Tamaño de fuente reducido para mejorar la legibilidad en dispositivos pequeños */
+    }
+    #radarChart {
         max-width: 400px;
         height: 400px;
     }
-    
+    #SeccionGrande1 {
+        flex-direction: column;
+    }
 }
+
+/* Extra small devices (phones, less than 576px) */
+@media (max-width: 575px) {
+    body {
+        font-size: 12px; /* Tamaño de fuente aún más pequeño para teléfonos en posición portrait */
+    }
+    h1, h2, h3, h4, h5, h6 {
+        font-size: calc(1.375rem + 1vw); /* Escalado dinámico de títulos basado en el ancho de la vista */
+    }
+    #radarChart {
+        width: 100%;
+        max-width: 350px;
+        height: 350px;
+    }
+    #SeccionGrande1 {
+        flex-direction: column;
+    }
+    body, #SeccionTitulo, #SeccionGrande1, #RespuestasSeccion {
+        padding: 10px; /* Reduce el padding en pantallas más pequeñas */
+    }
+}
+
 
 
 .answerReveal {
