@@ -1,138 +1,125 @@
-const canvas = document.getElementById('radarChart');
-const ctx = canvas.getContext('2d');
-const points = []; // Almacenará los objetos con las coordenadas y puntuaciones de cada punto
-
-function drawRadar() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const radius = 150;
-    const numAxis = 4;
-    const angle = (Math.PI * 2) / numAxis;
-
-    drawAxesAndSubsections(centerX, centerY, radius, numAxis, angle);
-    drawAxisTitles(centerX, centerY, radius, numAxis, angle);
-    drawDataPolygon(centerX, centerY, radius, numAxis, angle);
-}
-
-function drawAxesAndSubsections(centerX, centerY, radius, numAxis, angle) {
-    const subsections = 3;
-    const subsectionRadius = radius / subsections;
-
-    for (let i = 0; i < numAxis; i++) {
-        ctx.beginPath();
-        ctx.moveTo(centerX, centerY);
-        const x = centerX + radius * Math.cos(angle * i);
-        const y = centerY + radius * Math.sin(angle * i);
-        ctx.lineTo(x, y);
-        ctx.stroke();
-    }
-
-    ctx.strokeStyle = 'lightgray';
-    for (let j = 1; j <= subsections; j++) {
-        ctx.beginPath();
-        const subRadius = subsectionRadius * j;
-        for (let i = 0; i <= numAxis; i++) {
-            const x = centerX + subRadius * Math.cos(angle * i);
-            const y = centerY + subRadius * Math.sin(angle * i);
-            if (i === 0) {
-                ctx.moveTo(x, y);
-            } else {
-                ctx.lineTo(x, y);
-            }
-        }
-        ctx.closePath();
-        ctx.stroke();
-    }
-}
-
-function drawAxisTitles(centerX, centerY, radius, numAxis, angle) {
-    ctx.font = "20px Times New Roman";
-    const titles = ["Comunicación", "Situación", "Decisión","Mando y Control"];
-
-    for (let i = 0; i < numAxis; i++) {
-        ctx.save(); // Guarda el estado actual del contexto
-        const angleRadians = angle * i;
-        const x = centerX + (radius + 20) * Math.cos(angleRadians);
-        const y = centerY + (radius + 20) * Math.sin(angleRadians);
-
-        ctx.translate(x, y);
-        ctx.rotate(angleRadians + Math.PI / 2); // Rota el texto para alinearlo con el eje
-
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'top'; // Ajusta aquí dependiendo de la orientación deseada
-
-        ctx.fillText(titles[i], 0, 0); // Posiciona el texto en el punto transformado
-        ctx.restore(); // Restaura el estado original para no afectar otros dibujos
-    }
-}
-
-function drawDataPolygon(centerX, centerY, radius, numAxis, angle) {
-    const data = [7, 4, 9, 2];
-    ctx.beginPath();
-    ctx.fillStyle = "rgba(151,187,205,0.2)";
-
-    data.forEach((value, index) => {
-        const dataAngle = angle * index;
-        const dataRadius = (value / 10) * radius;
-        const x = centerX + dataRadius * Math.cos(dataAngle);
-        const y = centerY + dataRadius * Math.sin(dataAngle);
-
-        points.push({ x, y, value }); // Guarda los puntos para el evento de hover
-
-        if (index === 0) {
-            ctx.moveTo(x, y);
-        } else {
-            ctx.lineTo(x, y);
-        }
-        ctx.arc(x, y, 3, 0, Math.PI * 2);
-        ctx.fill();
+function consolidateResponses() {
+    var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    var consolidationSheet = spreadsheet.getSheetByName('Consolidado') || spreadsheet.insertSheet('Consolidado');
+    Logger.log('Consolidation Sheet cleared.'); // Depuración
+    consolidationSheet.clear();
+  
+    var formSheets = ['Respuestas de formulario 1', 'Respuestas de formulario 2', 'Respuestas de formulario 3', 'Respuestas de formulario 4'];
+  
+    formSheets.forEach(function(sheetName) {
+      var sheet = spreadsheet.getSheetByName(sheetName);
+      if (!sheet) {
+        Logger.log(sheetName + ' no existe.');
+        return;
+      }
+  
+      var data = sheet.getDataRange().getValues();
+      Logger.log('Data retrieved from ' + sheetName + ': ' + data.length + ' rows'); // Depuración
+  
+      if (data.length > 1) {
+        var cleanedData = cleanData(data, true);
+        consolidationSheet.getRange(consolidationSheet.getLastRow() + 1, 1, cleanedData.length, cleanedData[0].length).setValues(cleanedData);
+        Logger.log('Data consolidated from ' + sheetName); // Depuración
+      }
     });
-
-    ctx.closePath();
-    ctx.fill();
-    ctx.strokeStyle = "rgba(151,187,205,1)";
-    ctx.stroke();
-}
-
-canvas.addEventListener('mousemove', function(e) {
-    const rect = canvas.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-
-    points.forEach(point => {
-        const distance = Math.sqrt((point.x - mouseX) ** 2 + (point.y - mouseY) ** 2);
-        if (distance < 10) { // Ajusta según el tamaño de tus puntos
-            showTooltip(point.x, point.y, point.value);
-        } else {
-            hideTooltip();
+  
+    var percentage = calculateIdoneityPercentage();
+    PropertiesService.getScriptProperties().setProperty('percentage', percentage);
+    Logger.log('Idoneity Percentage Calculated: ' + percentage); // Depuración
+  }
+  
+  
+  
+  function cleanData(data, includeHeaders) {
+    var defaultValue = 'Valor por defecto';
+    var startRowIndex = includeHeaders ? 1 : 0;
+  
+    for (var i = startRowIndex; i < data.length; i++) {
+      for (var j = 0; j < data[i].length; j++) {
+        if (data[i][j] === '') {
+          Logger.log('Empty cell found at row ' + (i + 1) + ', column ' + (j + 1)); // Depuración
+          data[i][j] = defaultValue;
         }
-    });
-});
-
-function showTooltip(x, y, value) {
-    let tooltip = document.getElementById('tooltip');
-    if (!tooltip) {
-        tooltip = document.createElement('div');
-        tooltip.id = 'tooltip';
-        tooltip.style.position = 'absolute';
-        tooltip.style.padding = '8px';
-        tooltip.style.background = 'rgba(0, 0, 0, 0.7)';
-        tooltip.style.color = 'white';
-        tooltip.style.border- `border-radius`, '10px';
-        document.body.appendChild(tooltip);
+      }
     }
-    tooltip.textContent = `Puntuación: ${value}`;
-    tooltip.style.left = `${x}px`;
-    tooltip.style.top = `${y + 20}px`;
-    tooltip.style.display = 'block';
-}
-
-function hideTooltip() {
-    const tooltip = document.getElementById('tooltip');
-    if (tooltip) {
-        tooltip.style.display = 'none';
+  
+    return includeHeaders ? data : data.slice(1);
+  }
+  
+  
+  function doGet() {
+    var template = HtmlService.createTemplateFromFile('index');
+    var scores = getScores(); // Suponiendo que esta función devuelve un array de puntuaciones
+    template.scores = scores.join(','); // Convertir array en cadena para pasar a HTML
+    return template.evaluate().setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+  }
+  
+  function getScores() {
+    try {
+      var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Consolidado');
+      var range = sheet.getRange("C2:C80");
+      var allValues = range.getValues();
+      var scores = [];
+  
+      for (var i = 0; i < allValues.length; i++) {
+        var value = allValues[i][0];
+        if (typeof value === 'number') {
+          scores.push(value);
+          Logger.log('Valor añadido a scores: ' + value);
+        } else {
+          Logger.log('Non-numeric value skipped at row ' + (i + 2) + ': ' + value); // Depuración
+        }
+      }
+  
+      return scores;
+    } catch (e) {
+      Logger.log('Error retrieving scores: ' + e.toString()); // Captura y registra errores
+      return []; // Devuelve un array vacío en caso de error
     }
-}
-
-drawRadar(); // Inicia la función para dibujar el gráfico
+  }
+  
+  
+  
+  function calculateIdoneityPercentage() {
+    var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    var responsesSheet = spreadsheet.getSheetByName('Consolidado');
+    var values = responsesSheet.getDataRange().getValues();
+  
+    var correctAnswers = [
+      ["Centro de Concentración contra el Narcotráfico (CCON)"],
+      ["Patrullas y aeronaves GC enviadas a las playas", "Redes sociales y medios de comunicación", "Información obtenida de controles GAR"],
+      ["Despliegue de unidades de investigación GC y solicitud colaboración PN y PL", "Controles de carreteras y despliegue de unidades GAR", "Intercambio de información con oficiales de enlace y CCP Tánger y Algeciras"],
+      ["Portavoz GC informa de respuesta del Estado ante incidente de seguridad", "Portavoz GC solicita colaboración ciudadana para detener narcotraficantes", "Portavoz GC informa sobre situación en las playas y mensaje de calma"]
+    ];
+  
+    var totalPercentage = 0;
+  
+    for (var i = 1; i < values.length; i++) {
+      for (var j = 2; j < values[i].length; j++) {
+        var questionPercentage = 0;  // Inicializa el porcentaje de esta pregunta en 0
+        var responses = String(values[i][j]).split(', ').map(function(item) { return item.trim(); });  // Normaliza y divide las respuestas
+        var correct = correctAnswers[j-2];
+  
+        // Calcula el porcentaje de respuestas correctas para la pregunta
+        correct.forEach(function(correctResponse) {
+          if (responses.includes(correctResponse)) {
+            questionPercentage += (25 / correct.length);  // Suma una fracción del total basado en cuántas partes correctas hay
+          }
+        });
+  
+        totalPercentage += questionPercentage;
+      }
+    }
+  
+    var averagePercentage = totalPercentage / (values.length - 1);  // Calcula el promedio del porcentaje total
+    return averagePercentage.toFixed(2);  // Formatea a dos decimales
+  }
+  
+  
+  
+  function getIdoneityPercentage() {
+    // Recuperar el porcentaje almacenado y devolverlo
+    return PropertiesService.getScriptProperties().getProperty('percentage');
+  }
+  
+  

@@ -1,0 +1,121 @@
+body {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: #bcc0c4; /* Un fondo claro para mejorar el contraste */
+    color: #495057; /* Un color de texto que no sea puro negro para reducir la dureza */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.btn {
+    margin-top: 10px; /* Espacio adicional encima de los botones */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombras en botones para consistencia */
+}
+canvas {
+    border: 1px solid var(--secondary-color);
+    animation: fadeIn 1s ease-out;
+}
+
+#correctAnswers ul {
+    padding: 15px;
+    list-style: none; /* Eliminar los estilos predeterminados de lista */
+    margin: 0; /* Remover márgenes predeterminados */
+    background: #f2f2f2; /* Fondo suave para las listas */
+    border-radius: 8px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); /* Sombra interior suave */
+}
+canvas {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+#SeccionGrande1 {
+    display: flex;
+    flex-direction: row; /* Asegura que el contenido esté en fila en pantallas anchas */
+    align-items: flex-start; /* Alinea los elementos al inicio verticalmente */
+    justify-content: center; /* Centra los elementos horizontalmente */
+    flex-wrap: wrap; /* Permite el ajuste de los elementos en pantalla más pequeñas */
+}
+
+#SeccionTitulo {
+    text-align: center;
+    width: 100%;
+}
+
+#SeccionTitulo, #SeccionGrande1, #RespuestasSeccion {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 10px auto; /* Centra las secciones */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* Una sombra suave para dar profundidad */
+    max-width: 1200px; /* Un máximo ancho para evitar que las secciones sean demasiado anchas en pantallas grandes */
+}
+
+#div1_1, #div1_2 {
+    
+    
+    margin: 10px; /* Espacio entre los divs */
+    min-height: 100px; /* Establece una altura mínima para cada div para evitar el colapso */
+}
+
+#div1_1{
+    margin-left: 10%;
+}
+
+#radarChart {
+    width: 100%; /* Usa todo el ancho disponible dentro de su contenedor */
+    max-width: 500px; /* Limita el ancho máximo a 500px */
+    height: 500px; /* Altura fija para el canvas */
+    margin: auto; /* Centra el canvas dentro de su div */
+    position: relative; /* Posicionamiento relativo para mantener el canvas en su contenedor */
+    top: 0; /* Alinea el canvas en la parte superior de su contenedor */
+    z-index: 10; /* Asegura que el canvas esté por encima de otros elementos si es necesario */
+    box-shadow: 2px 2px 2px 2px rgba(0,0,0,0.1);
+}
+
+.badge {
+    background-color: var(--primary-color);
+    font-weight: bold;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    #SeccionGrande1 {
+        flex-direction: column;
+    }
+
+    canvas {
+        width: 100%;
+        max-width: 400px;
+        height: 400px;
+    }
+    
+}
+
+
+.answerReveal {
+    opacity: 1;  /* Estado inicial visible */
+    transform: translateX(0);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.hiddenAnswer {
+    opacity: 0 !important;
+    transform: translateX(20px) !important;
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+
+
+
+
+
+#correctAnswers h4 {
+    color: var(--primary-color);
+    margin-top: 20px;
+}

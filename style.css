@@ -1,23 +1,35 @@
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
 body {
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    background: #f4f4f4; /* Fondo claro para el cuerpo */
+    background: #f4f4f4;
 }
 
 canvas {
     border: 1px solid #ccc;
-    transition: transform 0.2s ease;
-    animation: fadeIn 1s ease-out; /* Suaviza la transformación */
+    animation: fadeIn 1s ease-out;
+    margin-left: 10%;
+}
+
+#SeccionGrande1 {
+    display: flex;
+}
+
+#SeccionTitulo {
+    justify-content: center;
+    align-items: center;
+    padding-left: 20%;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
