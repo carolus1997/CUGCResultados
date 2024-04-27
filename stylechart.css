@@ -27,9 +27,6 @@ canvas {
     border-radius: 8px;
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); /* Sombra interior suave */
 }
-canvas {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-}
 
 #SeccionGrande1 {
     display: flex;
@@ -37,6 +34,13 @@ canvas {
     align-items: flex-start; /* Alinea los elementos al inicio verticalmente */
     justify-content: center; /* Centra los elementos horizontalmente */
     flex-wrap: wrap; /* Permite el ajuste de los elementos en pantalla más pequeñas */
+    max-width: 1500px; /* Un máximo ancho para evitar que las secciones sean demasiado anchas en pantallas grandes */
+    margin-top: 10px; /* Centra las secciones horizontalmente */
+    margin-left: 15%;
+    margin-right: 15%;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
 }
 
 #SeccionTitulo {
@@ -44,7 +48,7 @@ canvas {
     width: 100%;
 }
 
-#SeccionTitulo, #SeccionGrande1, #RespuestasSeccion {
+#SeccionTitulo, #RespuestasSeccion {
     background: #ffffff;
     border-radius: 15px;
     padding: 20px;
@@ -54,8 +58,7 @@ canvas {
 }
 
 #div1_1, #div1_2 {
-    
-    
+    padding: 20px;
     margin: 10px; /* Espacio entre los divs */
     min-height: 100px; /* Establece una altura mínima para cada div para evitar el colapso */
 }
@@ -65,15 +68,15 @@ canvas {
 }
 
 #radarChart {
-    width: 100%; /* Usa todo el ancho disponible dentro de su contenedor */
-    max-width: 500px; /* Limita el ancho máximo a 500px */
-    height: 500px; /* Altura fija para el canvas */
-    margin: auto; /* Centra el canvas dentro de su div */
-    position: relative; /* Posicionamiento relativo para mantener el canvas en su contenedor */
-    top: 0; /* Alinea el canvas en la parte superior de su contenedor */
-    z-index: 10; /* Asegura que el canvas esté por encima de otros elementos si es necesario */
+    width: 100%;
+    max-width: 500px;  /* Limita el tamaño máximo */
+    height: auto;      /* Mantiene la proporción basada en el ancho */
+    margin: auto;      /* Centra horizontalmente */
     box-shadow: 2px 2px 2px 2px rgba(0,0,0,0.1);
+    position: relative;  /* Para el posicionamiento z-index */
+    z-index: 20;          /* Mayor visibilidad sobre otros elementos */
 }
+
 
 .badge {
     background-color: var(--primary-color);
@@ -164,10 +167,79 @@ canvas {
 
 
 
-
-
-
 #correctAnswers h4 {
     color: var(--primary-color);
     margin-top: 20px;
+}
+
+
+/* Respuestas correctas e incorrectas */
+.correctAnswer {
+    color: green; /* Verde para respuestas correctas */
+}
+
+.incorrectAnswer {
+    color: red; /* Rojo para respuestas incorrectas */
+}
+
+/* Estilo general para el contenedor de respuestas */
+.selected-answers {
+    list-style: none;
+    margin-top: 10px;
+    padding-left: 20px;
+    max-height: 0;  /* Inicialmente no tiene altura */
+    overflow: hidden;  /* Evita que el contenido desborde durante la transición */
+    transition: max-height 0.5s ease-in-out; /* Suaviza la transición de la altura */
+}
+
+/* Cuando el contenedor está 'abierto' */
+.selected-answers.show {
+    max-height: 300px; /* Ajusta según el máximo contenido esperado */
+}
+
+/* Transiciones suaves para los elementos li */
+.selected-answers li {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+/* Estado visible de los elementos li */
+.selected-answers.show li {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.5s; /* Retrasa la transición para que coincida con la del contenedor */
+}
+
+.btn-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-circle:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.1);
+}
+
+
+
+.list-group-item {
+    display: flex;
+    align-items: center;
+}
+.list-group-item .badge {
+    margin-top: 10px;  /* Espacio desde la parte superior */
+    margin-left: 10px;  /* Espacio desde la izquierda */
+}
+
+.btn-sm {
+    margin-right: 10px; /* Espacio entre el botón y el texto de la categoría */
 }
