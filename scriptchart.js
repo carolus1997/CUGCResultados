@@ -5,6 +5,12 @@ document.addEventListener('DOMContentLoaded', function () {
     updateChart(); // Llama a actualizar el gráfico con datos iniciales
 });
 
+// Llama a la función para enviar las respuestas cuando se active el evento "DOMContentLoaded"
+document.addEventListener('DOMContentLoaded', function () {
+    sendAnswersToScriptJS();
+});
+
+
 function drawRadarChart(data, labels) {
     const ctx = document.getElementById('radarChart').getContext('2d');
     const chart = new Chart(ctx, {
