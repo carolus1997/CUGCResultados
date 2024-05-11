@@ -1,64 +1,55 @@
-<!DOCTYPE html>
-<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Gráfico de Radar</title>
-    <link rel="stylesheet" href="stylechart.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="styleIntro.css" rel="stylesheet">
 </head>
+
 <body>
-    <section id="SeccionTitulo" class="text-center my-4">
-        <p class="fs-1">Resultados de la práctica</p>
-    </section>
-    <section id="SeccionGrande1" class="d-flex justify-content-center align-items-center flex-wrap">
-        <div id="div1_1" class="mx-3">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <button class="btn btn-sm btn-circle btn-outline-secondary" onclick="toggleSelectedAnswers('Mando')">+</button>
-                    Mando y Control <span class="badge bg-primary float-end" id="scoreMando"></span>
-                    <ul id="selectedMando" class="selected-answers"></ul>
-                </li>
-                <li class="list-group-item">
-                    <button class="btn btn-sm btn-circle btn-outline-secondary" onclick="toggleSelectedAnswers('Situacion')">+</button>
-                    Situación <span class="badge bg-primary float-end" id="scoreSituacion"></span>
-                    <ul id="selectedSituacion" class="selected-answers"></ul>
-                </li>
-                <li class="list-group-item">
-                    <button class="btn btn-sm btn-circle btn-outline-secondary" onclick="toggleSelectedAnswers('Decision')">+</button>
-                    Decisión <span class="badge bg-primary float-end" id="scoreDecision"></span>
-                    <ul id="selectedDecision" class="selected-answers"></ul>
-                </li>
-                <li class="list-group-item">
-                    <button class="btn btn-sm btn-circle btn-outline-secondary" onclick="toggleSelectedAnswers('Comunicacion')">+</button>
-                    Comunicación <span class="badge bg-primary float-end" id="scoreComunicacion"></span>
-                    <ul id="selectedComunicacion" class="selected-answers"></ul>
-                </li>
-            </ul>
-            <br>
-            <button type="button" class="btn btn-primary" id="consolidateButton" onclick="updateChart()">Corregir Respuestas</button>
-            <div id="percentageDisplay">Porcentaje de Idoneidad: <span id="averagePercentage">0</span></div>
-            <br>
-            <button type="button" class="btn btn-secondary" id="correctButton" onclick="toggleAnswers()">
-                Mostrar Respuestas
-            </button>
-            <br>
-            <div id="correctAnswers" style="display:none;" aria-hidden="true">
-                <h5>Mando y Control</h5>
-                <ul id="answerMando" aria-labelledby="headingMando"></ul>
-                <h5>Situación</h5>
-                <ul id="answerSituacion" aria-labelledby="headingSituacion"></ul>
-                <h5>Decisión</h5>
-                <ul id="answerDecision" aria-labelledby="headingDecision"></ul>
-                <h5>Comunicación</h5>
-                <ul id="answerComunicacion" aria-labelledby="headingComunicacion"></ul>
+    <!-- Sección introductoria con imagen y texto -->
+    <div class="intro-section">
+        <img src="icons/logo-cugc.png" alt="Logo del Centro Universitario Guardia Civil"
+            style="width: 150px; display: block; margin: auto;">
+        <p style="text-align: center; margin-top: 20px;">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim
+            sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius
+            a, semper congue, euismod non, mi.
+        </p>
+    </div>
+    <!-- Contenedor de las tarjetas -->
+    <div class="cards-container">
+        <div class="card">
+            <div class="card-details">
+                <p class="text-title">Mando y control</p>
+                <p class="text-body">Pregunta de única respuesta.</p>
             </div>
+            <a href="#mando-control" class="card-button">Comenzar</a>
         </div>
-        <div id="div1_2">
-            <canvas id="radarChart"></canvas>
+        <div class="card">
+            <div class="card-details">
+                <p class="text-title">Situación</p>
+                <p class="text-body">Pregunta de respuesta múltiple. Escoger unicamente tres respuestas</p>
+            </div>
+            <a href="#situacion" class="card-button">Comenzar</a>
         </div>
-    </section>
-    <script src="scriptchart.js"></script>
+        <div class="card">
+            <div class="card-details">
+                <p class="text-title">Decisión</p>
+                <p class="text-body">Pregunta de respuesta múltiple. Escoger únicamente tres respuestas</p>
+            </div>
+            <a href="#decision" class="card-button">Comenzar</a>
+        </div>
+        <div class="card">
+            <div class="card-details">
+                <p class="text-title">Comunicación</p>
+                <p class="text-body">Pregunta de respuesta múltiple. Escoger unicamente tres respuestas</p>
+            </div>
+            <a href="#comunicacion" class="card-button">Comenzar</a>
+        </div>
+    </div>
+    
+    <div class="intro-section">
+        <p style="text-align: center; margin-top: 20px;">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim
+            sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius
+            a, semper congue, euismod non, mi.
+        </p>
+    </div>
 </body>
-</html>
