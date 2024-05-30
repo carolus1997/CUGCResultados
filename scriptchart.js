@@ -37,6 +37,10 @@ function drawRadarChart(data, labels) {
     window.myRadarChart = chart;
 }
 
+function showChart() {
+    document.getElementById('resultsSection').style.display = 'block';
+}
+
 let selectedAnswersByCategory = {};
 
 function updateChart(formId, selectedAnswers) {
@@ -170,4 +174,19 @@ function fillSelectedAnswers(category) {
             list.appendChild(listItem);
         }, index * 100);
     });
+}
+
+function generatePDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.text("Informe de Evaluación", 10, 10);
+    doc.text("Resultados de la práctica", 10, 20);
+
+    // Obtener la imagen del gráfico de radar
+    const canvas = document.getElementById("radarChart");
+    const imgData = canvas.toDataURL("image/png");
+    doc.addImage(imgData, 'PNG', 10, 30, 180, 160);
+
+    doc.save("informe_evaluacion.pdf");
 }
