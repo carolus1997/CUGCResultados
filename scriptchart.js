@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const initialData = [6, 5, 6.33, 3.33];
+    const initialData = [0, 0, 0, 0];
     const labels = ["Comunicación", "Situación", "Decisión", "Mando y Control"];
     drawRadarChart(initialData, labels);
 });
@@ -26,7 +26,7 @@ function drawRadarChart(data, labels) {
             scales: {
                 r: {
                     min: 0,
-                    max: 10,
+                    max: 100,
                     angleLines: { display: false },
                     ticks: { beginAtZero: true, maxTicksLimit: 5 }
                 }
@@ -62,7 +62,7 @@ function updateChart(formId, selectedAnswers) {
     };
 
     const correctCount = selectedAnswers.filter(answer => correctAnswers[formId].includes(answer)).length;
-    const score = (correctCount / correctAnswers[formId].length) * 10;
+    const score = (correctCount / correctAnswers[formId].length) * 100;
 
     const index = categoryIndex[formId];
     window.myRadarChart.data.datasets[0].data[index] = score;
@@ -71,10 +71,10 @@ function updateChart(formId, selectedAnswers) {
     const category = categoryMap[formId];
     selectedAnswersByCategory[category] = selectedAnswers;
 
-    document.getElementById(`score${category}`).textContent = `${(score * 10).toFixed(2)}%`;
+    document.getElementById(`score${category}`).textContent = `${score.toFixed(2)}%`;
 
     const totalScore = window.myRadarChart.data.datasets[0].data.reduce((a, b) => a + b);
-    const percentageSuitability = (totalScore / 40 * 100).toFixed(2);
+    const percentageSuitability = (totalScore / 40 * 10).toFixed(2);
     document.getElementById('averagePercentage').textContent = `${percentageSuitability}%`;
 }
 
