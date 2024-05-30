@@ -4,7 +4,7 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background: #bcc0c4;
+    background-color: #004225;
     color: #495057;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 16px; /* Tamaño base para escritorio */
@@ -14,20 +14,22 @@ body {
     margin-top: 10px; /* Espacio adicional encima de los botones */
     box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombras en botones para consistencia */
 }
+
 canvas {
     border: 1px solid var(--secondary-color);
     animation: fadeIn 1s ease-out;
 }
 
+/* Estilos para las listas de respuestas correctas */
 #correctAnswers ul {
     padding: 15px;
     list-style: none; /* Eliminar los estilos predeterminados de lista */
     margin: 0; /* Remover márgenes predeterminados */
-    background: #f2f2f2; /* Fondo suave para las listas */
     border-radius: 8px;
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); /* Sombra interior suave */
 }
 
+/* Estilos para la sección grande de resultados */
 #SeccionGrande1 {
     display: flex;
     flex-direction: row; /* Asegura que el contenido esté en fila en pantallas anchas */
@@ -38,18 +40,14 @@ canvas {
     margin-top: 10px; /* Centra las secciones horizontalmente */
     margin-left: 15%;
     margin-right: 15%;
-    background: #ffffff;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
 }
 
-#SeccionTitulo {
+/* Estilos generales para secciones con títulos */
+#SeccionTitulo, #RespuestasSeccion {
     text-align: center;
     width: 100%;
-}
-
-#SeccionTitulo, #RespuestasSeccion {
-    background: #ffffff;
     border-radius: 15px;
     padding: 20px;
     margin: 10px auto; /* Centra las secciones */
@@ -57,13 +55,14 @@ canvas {
     max-width: 1200px; /* Un máximo ancho para evitar que las secciones sean demasiado anchas en pantallas grandes */
 }
 
+/* Estilos para los divs dentro de la sección grande */
 #div1_1, #div1_2 {
     padding: 20px;
     margin: 10px; /* Espacio entre los divs */
     min-height: 100px; /* Establece una altura mínima para cada div para evitar el colapso */
 }
 
-#div1_1{
+#div1_1 {
     margin-left: 10%;
 }
 
@@ -77,7 +76,6 @@ canvas {
     z-index: 20;          /* Mayor visibilidad sobre otros elementos */
 }
 
-
 .badge {
     background-color: var(--primary-color);
     font-weight: bold;
@@ -88,7 +86,7 @@ canvas {
     to { opacity: 1; }
 }
 
-/* Large devices (desktops, 992px and up) */
+/* Estilos responsivos */
 @media (min-width: 992px) {
     body {
         font-size: 18px; /* Tamaño de fuente más grande para escritorios grandes */
@@ -102,7 +100,6 @@ canvas {
     }
 }
 
-/* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) and (max-width: 991px) {
     body {
         font-size: 16px; /* Tamaño de fuente estándar para tabletas */
@@ -116,7 +113,6 @@ canvas {
     }
 }
 
-/* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) and (max-width: 767px) {
     body {
         font-size: 14px; /* Tamaño de fuente reducido para mejorar la legibilidad en dispositivos pequeños */
@@ -130,7 +126,6 @@ canvas {
     }
 }
 
-/* Extra small devices (phones, less than 576px) */
 @media (max-width: 575px) {
     body {
         font-size: 12px; /* Tamaño de fuente aún más pequeño para teléfonos en posición portrait */
@@ -151,8 +146,7 @@ canvas {
     }
 }
 
-
-
+/* Animaciones para la revelación de respuestas */
 .answerReveal {
     opacity: 1;  /* Estado inicial visible */
     transform: translateX(0);
@@ -165,13 +159,10 @@ canvas {
     transition: opacity 1s ease-out, transform 1s ease-out;
 }
 
-
-
-#correctAnswers h4 {
+#correctAnswers h5 {
     color: var(--primary-color);
     margin-top: 20px;
 }
-
 
 /* Respuestas correctas e incorrectas */
 .correctAnswer {
@@ -211,6 +202,7 @@ canvas {
     transition-delay: 0.5s; /* Retrasa la transición para que coincida con la del contenedor */
 }
 
+/* Estilos para botones circulares */
 .btn-circle {
     display: inline-flex;
     align-items: center;
@@ -229,8 +221,6 @@ canvas {
     transform: scale(1.1);
 }
 
-
-
 .list-group-item {
     display: flex;
     align-items: center;
@@ -244,35 +234,36 @@ canvas {
     margin-right: 10px; /* Espacio entre el botón y el texto de la categoría */
 }
 
+/* Estilos para las tarjetas */
 .cards-container {
     display: flex;
     justify-content: space-between; /* Esto distribuirá el espacio uniformemente alrededor de cada tarjeta */
     align-items: center; /* Esto alineará las tarjetas verticalmente en el centro */
     flex-wrap: nowrap; /* Evitará que las tarjetas se envuelvan en múltiples líneas */
     padding: 20px; /* Agrega algo de padding alrededor de las tarjetas */
-  }
+}
   
-  .card {
+.card {
     width: 190px;
     height: 254px;
     border-radius: 20px;
-    background: #f5f5f5;
+    background: #d4d0d0;
     position: relative;
     padding: 1.8rem;
     border: 2px solid #c3c6ce;
     transition: 0.5s ease-out;
     overflow: visible;
-  }
+}
   
-  .card-details {
+.card-details {
     color: black;
     height: 100%;
     gap: .5em;
     display: grid;
     place-content: center;
-  }
+}
   
-  .card-button {
+.card-button {
     display: block; /* Asegura que el enlace funcione como un bloque para facilitar la interacción */
     text-align: center;
     transform: translate(-50%, 125%);
@@ -289,38 +280,61 @@ canvas {
     opacity: 0;
     transition: all 0.3s ease-out;
     text-decoration: none; /* Elimina el subrayado de los enlaces */
-  }
+}
   
-  .card-button:hover {
+.card-button:hover {
     background-color: #005f9e; /* Cambio de color al pasar el ratón */
     cursor: pointer;
     transform: translate(-50%, 50%); /* Mueve el botón más arriba al hacer hover */
     opacity: 1;
-  }
+}
   
-  
-  .text-body {
+.text-body {
     color: rgb(134, 134, 134);
-  }
+}
   
-  .text-title {
+.text-title {
     font-size: 1.5em;
     font-weight: bold;
-  }
+}
   
-  .card:hover {
+.card:hover {
     border-color: #008bf8;
     box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
-  }
+}
   
-  .card:hover .card-button {
+.card:hover .card-button {
     transform: translate(-50%, 50%);
     opacity: 1;
-  }
+}
   
-  body{
-    background-color: #004225;
-  }
-  .intro-section p{
+.intro-section p {
     color: rgb(230, 228, 228);
-  }
+}
+
+.form-section {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out;
+}
+
+.form-section.active {
+    display: block;
+    opacity: 1;
+    height: auto;
+}
+
+.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.fade-in {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
