@@ -15,7 +15,7 @@
 
 <body>
     <!-- Sección introductoria con imagen y texto -->
-    <div class="intro-section">
+    <div class="intro-section" style="margin-left: 10%; margin-right: 10%;">
         <img src="icons/logo-cugc.png" alt="Logo del Centro Universitario Guardia Civil"
             style="width: 150px; display: block; margin: auto;">
         <p style="text-align: center; margin-top: 20px; color: black;">
@@ -196,20 +196,20 @@
                         <h5>Comunicación</h5>
                         <ul id="answerComunicacion" aria-labelledby="headingComunicacion"></ul>
                     </div>
+                    <div id="div1_2" class="text-center">
+                        <canvas id="radarChart" width="400" height="400"></canvas>
+                    </div>
                 </div>
                 <br>
                 <div id="percentageDisplay"><b>Porcentaje de Idoneidad:</b> <span id="averagePercentage"><b>0</b></span></div>
                 <br>
                 <button type="button" class="btn btn-secondary" id="correctButton" onclick="toggleAnswers()">Mostrar
                     Respuestas Correctas</button>
-                <button type="button" class="btn btn-secondary" id="showChartButton" onclick="ShowChart()">Mostrar Gráfico</button>
                 <br>
             </div>
         </section>
-        <div id="div1_2" class="text-center">
-            <canvas id="radarChart" width="400" height="400"></canvas>
-        </div>
     </div>
+    
     <!-- Botón para generar PDF -->
     <div class="text-center my-4">
         <button type="button" class="btn btn-outline-success" onclick="generatePDF()">Generar Informe en PDF</button>
@@ -226,6 +226,7 @@
                 console.log('Usuario canceló.');
             }
         }
+
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>

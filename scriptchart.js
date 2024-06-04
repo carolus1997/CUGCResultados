@@ -39,6 +39,24 @@ function drawRadarChart(data, labels) {
 
 function showChart() {
     document.getElementById('resultsSection').style.display = 'block';
+    const data = [65, 59, 80, 81]; // Datos de ejemplo
+    const labels = ['Mando y Control', 'Situación', 'Decisión', 'Comunicación'];
+    drawRadarChart(data, labels);
+}
+
+function generatePDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.text("Informe de Evaluación", 10, 10);
+    doc.text("Resultados de la práctica", 10, 20);
+
+    // Obtener la imagen del gráfico de radar
+    const canvas = document.getElementById("radarChart");
+    const imgData = canvas.toDataURL("image/png");
+    doc.addImage(imgData, 'PNG', 10, 30, 180, 160);
+
+    doc.save("informe_evaluacion.pdf");
 }
 
 let selectedAnswersByCategory = {};
@@ -176,17 +194,5 @@ function fillSelectedAnswers(category) {
     });
 }
 
-function generatePDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
 
-    doc.text("Informe de Evaluación", 10, 10);
-    doc.text("Resultados de la práctica", 10, 20);
 
-    // Obtener la imagen del gráfico de radar
-    const canvas = document.getElementById("radarChart");
-    const imgData = canvas.toDataURL("image/png");
-    doc.addImage(imgData, 'PNG', 10, 30, 180, 160);
-
-    doc.save("informe_evaluacion.pdf");
-}
