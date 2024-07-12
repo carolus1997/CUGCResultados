@@ -61,7 +61,7 @@ function printReport() {
     printWindow.document.write('</style>');
     printWindow.document.write('</head><body>');
 
-    printWindow.document.write('<h1>Informe de Evaluación Equipo 1</h1>');
+    printWindow.document.write('<h1>Informe de Evaluación Equipo 6</h1>');
     printWindow.document.write('<h2>Resultados de la práctica</h2>');
 
     // Obtener la imagen del gráfico de radar
