@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
         Object.keys(selectedAnswersByForm).forEach(formId => {
             const sectionName = formSectionNames[formId]; // Obtener el nombre de la sección
             const selectedAnswers = selectedAnswersByForm[formId];
-            const correctAnswers = correctAnswersMap[formId];
+            const correctAnswersList = correctAnswers[formId];
 
             // Añadir el nombre de la sección como título en la columna de respuestas seleccionadas
             const selectedSectionTitle = document.createElement('h5');
@@ -58,9 +58,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 selectedAnswersContainer.appendChild(answerItem);
             });
 
-            // Mostrar las respuestas correctas en color verde, sin agregar otro título
-            correctAnswers.forEach(answer => {
-                const correctItem = document.createElement('ul');
+            // Mostrar las respuestas correctas en color verde
+            correctAnswersList.forEach(answer => {
+                const correctItem = document.createElement('p');
                 correctItem.textContent = answer;
                 correctItem.className = 'text-success';  // Aplicar clase de éxito para el color verde
                 correctAnswersContainers[formId].appendChild(correctItem);
@@ -71,16 +71,13 @@ document.addEventListener("DOMContentLoaded", function () {
         selectedAnswersContainer.style.maxHeight = 'none';
         selectedAnswersContainer.style.overflow = 'visible';
 
-        // Añadir la clase 'show' para mostrar las respuestas con la transición
-        selectedAnswersContainer.classList.add('show');
-
         // Calcular y mostrar el porcentaje de idoneidad
-        const totalCorrect = Object.keys(correctAnswersMap).reduce((sum, formId) => {
+        const totalCorrect = Object.keys(correctAnswers).reduce((sum, formId) => {
             const selected = selectedAnswersByForm[formId] || [];
-            const correct = correctAnswersMap[formId];
+            const correct = correctAnswers[formId];
             return sum + selected.filter(answer => correct.includes(answer)).length;
         }, 0);
-        const totalPossible = Object.values(correctAnswersMap).reduce((sum, answers) => sum + answers.length, 0);
+        const totalPossible = Object.values(correctAnswers).reduce((sum, answers) => sum + answers.length, 0);
         const percentage = ((totalCorrect / totalPossible) * 100).toFixed(2);
         document.getElementById('averagePercentage').textContent = `${percentage}%`;
 
